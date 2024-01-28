@@ -37,5 +37,24 @@ async def create_person(data:User):
     cursor.close()
     return "Person %s created" % data.name
 
+@app.patch("/update_person")
+async def update_person(id:int, data:User):
+    cursor = bd.cursor()
+    cursor.execute("UPDATE person SET (name = %s, password = %s) WHERE id = %s", (data.name,data.password,id))
+    bd.commit()
+    cursor.close()
+    return "Successfully updated person with id %s" % id
+
+@app.delete("/delete_person{id}")
+async def delete_person(id:int):
+    cursor = bd.cursor()
+    cursor.execute("DELETE FROM person WHERE id = %s" % id)
+    bd.commit()
+    cursor.close()
+    return "Successfully deleted person with id %s" % id
+
+
+
+
 
 
