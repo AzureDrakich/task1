@@ -8,7 +8,7 @@ class User(BaseModel):
     password: str
 
 
-bd = psycopg2.connect(dbname="postgres", host="localhost", user="postgres", password="postgres", port="5432")
+bd = article.bd
 app = FastAPI(title="Person")
 
 
