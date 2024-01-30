@@ -57,8 +57,8 @@ async def delete_person(id:int):
 async def get_article():
     return await article.get_all_articles()
 @app.get("/article/{id}")
-async def get_article_by_id(id:int):
-    return await article.get_article_by_id(id)
+async def get_article_by_id(person_id:int):
+    return await article.get_article_by_id(person_id)
 
 @app.post("/article")
 async def post_article(data:article.Article):

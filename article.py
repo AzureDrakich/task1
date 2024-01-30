@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import psycopg2
+from person import bd
 
 class Article(BaseModel):
     name: str
@@ -8,7 +8,6 @@ class Article(BaseModel):
     date: str
     person_id: int
 
-bd = psycopg2.connect(dbname="postgres", host="localhost", user="postgres", password="postgres", port="5432")
 app=FastAPI(title="Article")
 
 async def get_all_articles():
@@ -18,9 +17,9 @@ async def get_all_articles():
     cursor.close()
     return result
 
-async def get_article_by_id(id:int):
+async def get_article_by_id(person_id:int):
     cursor = bd.cursor()
-    cursor.execute("SELECT * FROM article WHERE id = %s", (id,))
+    cursor.execute("SELECT * FROM article WHERE person_id = %s", (person_id,))
     result = cursor.fetchall()
     cursor.close()
     return result
