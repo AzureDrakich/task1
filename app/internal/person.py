@@ -55,27 +55,7 @@ async def delete_person(id:int):
     cursor.close()
     return "Successfully deleted person with id %s" % id
 
-@app.get("/article")
-async def get_article():
-    return await article.get_all_articles()
-@app.get("/article/{id}")
-async def get_article_by_id(person_id:int):
-    return await article.get_article_by_id(person_id)
 
-@app.post("/article")
-async def post_article(data:article.Article):
-    await article.create_article(data)
-    return "Succesfully added new article with person's id %s" % data.person_id
-
-@app.patch("/article")
-async def patch_article(id:int, data:article.Article):
-    await article.update_article(id, data)
-    return "Successfully updated article with id %s" % id
-
-@app.delete("/article/{id}")
-async def delete_article(id:int):
-    await article.delete_article(id)
-    return "Successfully deleted article with %s" % id
 
 
 
