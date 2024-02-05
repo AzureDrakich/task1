@@ -9,13 +9,15 @@ CREATE TABLE IF NOT EXISTS article
     id SERIAL PRIMARY KEY,
     name CHARACTER VARYING(30),
     article CHARACTER VARYING(30),
-    date CHARACTER VARYING(30),
+    date date,
     person_id INTEGER
 );
-CREATE TABLE IF NOT EXISTS comments
+
+CREATE TABLE  IF NOT EXISTS comments
 (
     id SERIAL PRIMARY KEY,
-    comment_id CHARACTER VARYING(30),
+    article_id INTEGER,
     date date,
-    comment CHARACTER VARYING(30)
+    comment text,
+    FOREIGN KEY (article_id) REFERENCES article (id) ON DELETE CASCADE
 );

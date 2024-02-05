@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from app.internal import article
 
-date = "%s.%s.%s.%s:%s" % (datetime.now().day, datetime.now().month, datetime.now().year,datetime.now().hour, datetime.now().minute)
+date = "%s.%s.%s %s:%s" % (datetime.now().year, datetime.now().month, datetime.now().day, datetime.now().hour, datetime.now().minute)
 app = FastAPI()
 bd = article.bd
 router = APIRouter(prefix="/api/v1")
@@ -31,7 +31,7 @@ async def get_comment_by_id(id:int):
 @router.post("/comments")
 async def post_comment(data:Comment):
     cursor = bd.cursor()
-    cursor.execute("INSERT INTO comments (comment_id, date, comment) VALUES (%s, %s, %s)", (data.comment_id, date, data.comment))
+    cursor.execute("INSERT INTO comments (article_id, date, comment) VALUES (%s, %s, %s)", (data.comment_id, date, data.comment))
     bd.commit()
     cursor.close()
     return "Successfully added new comment at %s" % date
@@ -39,7 +39,7 @@ async def post_comment(data:Comment):
 @router.patch("/comments")
 async def update_comments(id:int, data:Comment):
     cursor = bd.cursor()
-    cursor.execute("UPDATE comments SET comment_id = %s, date = %s, comment = %s  WHERE id = %s", (data.comment_id, date, data.comment, id))
+    cursor.execute("UPDATE comments SET article_id = %s, date = %s, comment = %s  WHERE id = %s", (data.comment_id, date, data.comment, id))
     bd.commit()
     cursor.close()
     return "Successfully updated comment with id %s" % id
