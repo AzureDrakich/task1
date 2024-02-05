@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import psycopg2
 from datetime import datetime
 
-date = "%s.%s.%s" % (datetime.now().year, datetime.now().month, datetime.now().day)
+date = "%s.%s.%s.%s:%s" % (datetime.now().day, datetime.now().month, datetime.now().year,datetime.now().hour, datetime.now().minute)
 app=FastAPI()
 router = APIRouter(prefix="/api/v1")
 

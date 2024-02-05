@@ -1,6 +1,5 @@
 from fastapi import FastAPI, APIRouter
 from pydantic import BaseModel
-import psycopg2
 from app.internal import article
 
 app=FastAPI()

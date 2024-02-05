@@ -12,3 +12,10 @@ CREATE TABLE IF NOT EXISTS article
     date CHARACTER VARYING(30),
     person_id INTEGER
 );
+CREATE TABLE IF NOT EXISTS comments
+(
+    id SERIAL PRIMARY KEY,
+    comment_id CHARACTER VARYING(30),
+    date date,
+    comment CHARACTER VARYING(30)
+);
