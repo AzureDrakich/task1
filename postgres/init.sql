@@ -23,3 +23,11 @@ CREATE TABLE IF NOT EXISTS comments
     FOREIGN KEY (article_id) REFERENCES article (id) ON DELETE CASCADE,
     FOREIGN KEY (id) REFERENCES person (id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS chat
+(
+    id SERIAL PRIMARY KEY,
+    sender CHARACTER VARYING(30),
+    receiver CHARACTER VARYING(30),
+    msg text
+);
