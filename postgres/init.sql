@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS person
 (
     id SERIAL PRIMARY KEY,
     name CHARACTER VARYING(30),
-    password CHARACTER VARYING(30)
+    password CHARACTER VARYING(32)
 );
 CREATE TABLE IF NOT EXISTS article
 (
@@ -29,5 +29,7 @@ CREATE TABLE IF NOT EXISTS chat
     id SERIAL PRIMARY KEY,
     sender CHARACTER VARYING(30),
     receiver CHARACTER VARYING(30),
-    msg text
+    usr_pass CHARACTER VARYING(32),
+    msg text,
+    FOREIGN KEY (id) REFERENCES person (id) ON DELETE CASCADE
 );
