@@ -8,6 +8,7 @@ router = APIRouter(prefix="/api/v1")
 
 class Message(BaseModel):
     sender: str
+    usr_id: int
     password: str
     receiver: str
     msg: str
@@ -17,8 +18,8 @@ class Message(BaseModel):
 async def post_message(message: Message):
     cursor = bd.cursor()
     b_password = message.password.encode('utf-8')
-    cursor.execute("INSERT INTO chat (sender, receiver, msg, usr_pass) VALUES (%s,%s,%s,%s)",
-                   (message.sender,message.receiver,message.msg, md5(b_password).hexdigest()))
+    cursor.execute("INSERT INTO chat (usr_id, sender, receiver, msg, usr_pass) VALUES (%s,%s,%s,%s,%s)",
+                   (message.usr_id, message.sender,message.receiver,message.msg, md5(b_password).hexdigest()))
     bd.commit()
     cursor.close()
     return "Successfully sended message to %s" % message.receiver

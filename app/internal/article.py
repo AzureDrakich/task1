@@ -26,7 +26,7 @@ async def get_all_articles():
 @router.get("/article/{id}")
 async def get_article_by_id(person_id:int):
     cursor = bd.cursor()
-    cursor.execute("SELECT * FROM article WHERE person_id = %s", (person_id,))
+    cursor.execute("SELECT * FROM article WHERE user_id = %s", (person_id,))
     result = cursor.fetchall()
     cursor.close()
     return result
@@ -34,16 +34,16 @@ async def get_article_by_id(person_id:int):
 @router.post("/article")
 async def create_article(data:Article):
     cursor = bd.cursor()
-    cursor.execute("INSERT INTO article (name, article, date, person_id) VALUES (%s, %s, %s, %s)",
+    cursor.execute("INSERT INTO article (name, article, date, user_id) VALUES (%s, %s, %s, %s)",
                    (data.name, data.article, date, data.person_id))
     bd.commit()
     cursor.close()
-    return "Succesfully added new article %s from %s with person's id %s at %s " % (data.article, data.name, data.person_id, date)
+    return "Succesfully added new article %s from %s with user's id %s at %s " % (data.article, data.name, data.person_id, date)
 
 @router.patch("/article")
 async def update_article(id: int, data:Article):
     cursor = bd.cursor()
-    cursor.execute("UPDATE article SET name = %s, article = %s, date = %s, person_id = %s WHERE id = %s",
+    cursor.execute("UPDATE article SET name = %s, article = %s, date = %s, user_id = %s WHERE id = %s",
                    (data.name, data.article, date, data.person_id,id))
     bd.commit()
     cursor.close()

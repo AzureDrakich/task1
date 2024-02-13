@@ -17,7 +17,7 @@ bd = article.bd
 @router.get("/person")
 async def get_all():
     cursor = bd.cursor()
-    cursor.execute("SELECT * FROM person")
+    cursor.execute("SELECT * FROM users")
     result = cursor.fetchall()
     cursor.close()
     return result
@@ -25,7 +25,7 @@ async def get_all():
 @router.get("/person/{id}")
 async def get_person(id: int):
     cursor = bd.cursor()
-    cursor.execute("SELECT * FROM person WHERE id = %s", (id,))
+    cursor.execute("SELECT * FROM users WHERE id = %s", (id,))
     result = cursor.fetchall()
     cursor.close()
     return result
@@ -34,7 +34,7 @@ async def get_person(id: int):
 async def create_person(data:User):
     cursor = bd.cursor()
     b_password = data.password.encode('utf-8')
-    cursor.execute("INSERT INTO person (name,password) VALUES (%s,%s)", (data.name, md5(b_password).hexdigest()))
+    cursor.execute("INSERT INTO users (name,password) VALUES (%s,%s)", (data.name, md5(b_password).hexdigest()))
     bd.commit()
     cursor.close()
     return "Person %s created" % data.name
@@ -43,7 +43,7 @@ async def create_person(data:User):
 async def update_person(id:int, data:User):
     cursor = bd.cursor()
     b_password = data.password.encode('utf-8')
-    cursor.execute("UPDATE person SET name = %s, password = %s WHERE id = %s", (data.name,md5(b_password).hexdigest(),id))
+    cursor.execute("UPDATE users SET name = %s, password = %s WHERE id = %s", (data.name,md5(b_password).hexdigest(),id))
     bd.commit()
     cursor.close()
     return "Successfully updated person with id %s" % id
@@ -51,7 +51,7 @@ async def update_person(id:int, data:User):
 @router.delete("/person{id}")
 async def delete_person(id:int):
     cursor = bd.cursor()
-    cursor.execute("DELETE FROM person WHERE id = %s" % id)
+    cursor.execute("DELETE FROM users WHERE id = %s" % id)
     bd.commit()
     cursor.close()
     return "Successfully deleted person with id %s" % id

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS person
+CREATE TABLE IF NOT EXISTS users
 (
     id SERIAL PRIMARY KEY,
     name CHARACTER VARYING(30),
@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS article
     name CHARACTER VARYING(30),
     article CHARACTER VARYING(30),
     date date,
-    person_id INTEGER,
-    FOREIGN KEY (id) REFERENCES person (id) ON DELETE CASCADE
+    user_id INTEGER,
+    FOREIGN KEY (id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS comments
@@ -21,15 +21,16 @@ CREATE TABLE IF NOT EXISTS comments
     date date,
     comment text,
     FOREIGN KEY (article_id) REFERENCES article (id) ON DELETE CASCADE,
-    FOREIGN KEY (id) REFERENCES person (id) ON DELETE CASCADE
+    FOREIGN KEY (id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS chat
 (
     id SERIAL PRIMARY KEY,
+    usr_id INTEGER,
     sender CHARACTER VARYING(30),
     receiver CHARACTER VARYING(30),
     usr_pass CHARACTER VARYING(32),
     msg text,
-    FOREIGN KEY (id) REFERENCES person (id) ON DELETE CASCADE
+    FOREIGN KEY (usr_id) REFERENCES users (id) ON DELETE CASCADE
 );

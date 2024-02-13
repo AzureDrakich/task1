@@ -9,7 +9,7 @@ bd = article.bd
 router = APIRouter(prefix="/api/v1")
 
 class Comment(BaseModel):
-    comment_id: int
+    article_id: int
     comment: str
 
 @router.get("/comments")
@@ -31,7 +31,7 @@ async def get_comment_by_id(id:int):
 @router.post("/comments")
 async def post_comment(data:Comment):
     cursor = bd.cursor()
-    cursor.execute("INSERT INTO comments (article_id, date, comment) VALUES (%s, %s, %s)", (data.comment_id, date, data.comment))
+    cursor.execute("INSERT INTO comments (article_id, date, comment) VALUES (%s, %s, %s)", (data.article_id, date, data.comment))
     bd.commit()
     cursor.close()
     return "Successfully added new comment at %s" % date
