@@ -27,10 +27,9 @@ CREATE TABLE IF NOT EXISTS comments
 CREATE TABLE IF NOT EXISTS chat
 (
     id SERIAL PRIMARY KEY,
-    usr_id INTEGER,
-    sender CHARACTER VARYING(30),
-    receiver CHARACTER VARYING(30),
-    usr_pass CHARACTER VARYING(32),
+    sender_id INTEGER,
+    receiver_id INTEGER,
     msg text,
-    FOREIGN KEY (usr_id) REFERENCES users (id) ON DELETE CASCADE
+    FOREIGN KEY (sender_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES users (id) ON DELETE CASCADE
 );

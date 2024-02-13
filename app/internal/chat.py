@@ -1,37 +1,31 @@
 from fastapi import FastAPI, APIRouter
 from pydantic import BaseModel
 from app.internal.article import bd
-from hashlib import md5
 
 app = FastAPI()
 router = APIRouter(prefix="/api/v1")
 
 class Message(BaseModel):
-    sender: str
-    usr_id: int
-    password: str
-    receiver: str
+    sender_id: int
+    receiver_id: int
     msg: str
 
 
 @router.post("/chat")
 async def post_message(message: Message):
     cursor = bd.cursor()
-    b_password = message.password.encode('utf-8')
-    cursor.execute("INSERT INTO chat (usr_id, sender, receiver, msg, usr_pass) VALUES (%s,%s,%s,%s,%s)",
-                   (message.usr_id, message.sender,message.receiver,message.msg, md5(b_password).hexdigest()))
+    cursor.execute("INSERT INTO chat (sender_id, receiver_id, msg) VALUES (%s,%s,%s)",
+                   (message.sender_id, message.receiver_id, message.msg))
     bd.commit()
     cursor.close()
-    return "Successfully sended message to %s" % message.receiver
+    return "Successfully sended message to %s" % message.receiver_id
 
-@router.get("/chat/{name}/{receiver}")
-async def read_chat(name: str,receiver: str):
+@router.get("/chat/{sender_id}/{receiver_id}")
+async def read_chat(sender: int,receiver: int):
     cursor = bd.cursor()
-    cursor.execute("SELECT msg FROM chat WHERE sender=%s", (name,))
+    cursor.execute("SELECT msg FROM chat WHERE sender_id=%s", (sender,))
     msg_from = cursor.fetchall()
-    cursor.execute("SELECT msg FROM chat WHERE receiver=%s", (name,))
-    #msg_to = cursor.fetchall()
-    cursor.execute("SELECT msg FROM chat WHERE sender=%s", (receiver,))
-    msg_to_from = cursor.fetchall()
+    cursor.execute("SELECT msg FROM chat WHERE receiver_id=%s", (receiver,))
+    msg_to = cursor.fetchall()
     cursor.close()
-    return msg_from,msg_to_from
+    return msg_from, msg_to
