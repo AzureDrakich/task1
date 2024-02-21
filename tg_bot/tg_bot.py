@@ -94,7 +94,6 @@ async def send_msg(message: Message):
             "msg": data[2]
         }
         requests.post(url + "/chat", json=js_data)
-        await message.answer("Message sent to %s" % data[1])
     else:
         await message.answer("Unknown user or try to sign_in")
 
