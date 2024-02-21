@@ -17,7 +17,7 @@ bd = article.bd
 @router.get("/person")
 async def get_all():
     cursor = bd.cursor()
-    cursor.execute("SELECT * FROM users")
+    cursor.execute("SELECT name FROM users")
     result = cursor.fetchall()
     cursor.close()
     return result
@@ -30,6 +30,13 @@ async def get_person(id: int):
     cursor.close()
     return result
 
+@router.get("/{name}")
+async def get_person_by_name(name:str):
+    cursor = bd.cursor()
+    cursor.execute("SELECT * FROM users WHERE name = %s", (name,))
+    result = cursor.fetchall()
+    cursor.close()
+    return result
 @router.post("/person")
 async def create_person(data:User):
     cursor = bd.cursor()
